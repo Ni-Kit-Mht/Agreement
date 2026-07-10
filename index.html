@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employment – Form</title>
+    <style>
+        /* ---------- RESET & BASE ---------- */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: #f2f4f8;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* ---------- MAIN CONTAINER ---------- */
+        .app-wrapper {
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        /* ---------- FORM CARD ---------- */
+        .form-card {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 8px 24px rgba(0, 0, 0, 0.04);
+            padding: 40px 48px 48px;
+            transition: opacity 0.25s ease;
+        }
+
+        .form-card.hidden {
+            display: none;
+        }
+
+        .form-title {
+            font-size: 26px;
+            font-weight: 600;
+            color: #0b1e33;
+            letter-spacing: -0.3px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-title small {
+            font-size: 15px;
+            font-weight: 400;
+            color: #6b7a8f;
+            letter-spacing: 0;
+        }
+
+        .form-subtitle {
+            color: #5e6f84;
+            font-size: 15px;
+            margin-bottom: 32px;
+            border-left: 4px solid #2a7de1;
+            padding-left: 16px;
+            background: #f8faff;
+            border-radius: 0 8px 8px 0;
+            line-height: 1.5;
+        }
+
+        /* ---------- FORM GRID ---------- */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 30px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1f2a3f;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .form-group label .badge {
+            font-weight: 400;
+            font-size: 11px;
+            background: #e9edf4;
+            color: #4a5b72;
+            padding: 0 10px;
+            border-radius: 12px;
+            text-transform: none;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            font-family: inherit;
+            font-size: 15px;
+            padding: 10px 14px;
+            border: 1.5px solid #dbe0e8;
+            border-radius: 10px;
+            background: #fbfcfe;
+            transition: border 0.2s, box-shadow 0.2s;
+            outline: none;
+            color: #0b1e33;
+            width: 100%;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #2a7de1;
+            box-shadow: 0 0 0 4px rgba(42, 125, 225, 0.10);
+            background: #ffffff;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #aab5c6;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+            line-height: 1.5;
+        }
+
+        .form-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7a8f' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 40px;
+            cursor: pointer;
+        }
+
+        .inline-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .inline-group .form-group {
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .inline-group .form-group label {
+            font-size: 12px;
+            text-transform: none;
+            font-weight: 500;
+            color: #4a5b72;
+        }
+
+        .inline-group .form-group input,
+        .inline-group .form-group select {
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+
+        .divider {
+            border: none;
+            border-top: 2px dashed #e6eaf0;
+            margin: 26px 0 22px;
+            grid-column: 1 / -1;
+        }
+
+        /* ---------- SECTION LABELS ---------- */
+        .section-label {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0b1e33;
+            grid-column: 1 / -1;
+            margin-top: 6px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #eef2f8;
+        }
+
+        .section-label .sec-num {
+            display: inline-block;
+            background: #2a7de1;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            width: 26px;
+            height: 26px;
+            line-height: 26px;
+            text-align: center;
+            border-radius: 8px;
+            margin-right: 10px;
+        }
+
+        /* ---------- BUTTONS ---------- */
+        .form-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 36px;
+            padding-top: 24px;
+            border-top: 1px solid #eef2f8;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 12px 32px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn-primary {
+            background: #0b1e33;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(11, 30, 51, 0.20);
+        }
+
+        .btn-primary:hover {
+            background: #1a3350;
+            box-shadow: 0 6px 20px rgba(11, 30, 51, 0.25);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #1f2a3f;
+            border: 1.5px solid #dbe0e8;
+        }
+
+        .btn-outline:hover {
+            background: #f5f7fb;
+            border-color: #bcc6d4;
+        }
+
+        .btn-success {
+            background: #1a7d4a;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(26, 125, 74, 0.25);
+        }
+
+        .btn-success:hover {
+            background: #14693d;
+            box-shadow: 0 6px 20px rgba(26, 125, 74, 0.30);
+        }
+
+        .btn-danger {
+            background: #c72a2a;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(199, 42, 42, 0.20);
+        }
+
+        .btn-danger:hover {
+            background: #a82222;
+        }
+
+        .btn-print {
+            background: #1a3a6b;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(26, 58, 107, 0.25);
+        }
+
+        .btn-print:hover {
+            background: #112b50;
+        }
+
+        /* ---------- PREVIEW MODAL ---------- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(11, 30, 51, 0.55);
+            backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 30px 20px;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.97);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-content {
+            background: #ffffff;
+            border-radius: 24px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 28px;
+            border-bottom: 1px solid #eef2f8;
+            flex-shrink: 0;
+            background: #fafcff;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #0b1e33;
+        }
+
+        .modal-header .modal-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .modal-body {
+            padding: 32px 40px 40px;
+            overflow-y: auto;
+            flex: 1;
+            background: #ffffff;
+        }
+
+        /* ---------- RENDERED DOCUMENT (inside modal) ---------- */
+        .doc-paper {
+            background: #ffffff;
+            padding: 40px 48px;
+            border-radius: 12px;
+            border: 1px solid #e6eaf0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            font-family: 'Times New Roman', 'Georgia', serif;
+            color: #1a1f2e;
+            line-height: 1.7;
+            font-size: 16px;
+            max-width: 780px;
+            margin: 0 auto;
+        }
+
+        .doc-paper .doc-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #0b1e33;
+            border-bottom: 2px solid #0b1e33;
+            padding-bottom: 12px;
+            margin-bottom: 28px;
+            text-transform: uppercase;
+        }
+
+        .doc-paper .doc-date {
+            text-align: right;
+            font-size: 15px;
+            margin-bottom: 28px;
+            color: #2d3a4f;
+        }
+
+        .doc-paper .doc-date strong {
+            font-weight: 600;
+        }
+
+        .doc-paper .doc-section {
+            margin-bottom: 20px;
+        }
+
+        .doc-paper .doc-section p {
+            margin-bottom: 12px;
+        }
+
+        .doc-paper .doc-label {
+            font-weight: 600;
+            color: #0b1e33;
+        }
+
+        .doc-paper .doc-duties {
+            background: #f8faff;
+            padding: 16px 20px;
+            border-radius: 8px;
+            border-left: 4px solid #2a7de1;
+            margin: 12px 0 16px;
+            white-space: pre-wrap;
+            font-family: 'Georgia', serif;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .doc-paper .doc-terms {
+            margin: 12px 0 16px;
+            padding-left: 20px;
+        }
+
+        .doc-paper .doc-terms li {
+            margin-bottom: 10px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .doc-paper .doc-signatures {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid #dbe0e8;
+            gap: 30px;
+        }
+
+        .doc-paper .doc-signatures .sig-block {
+            flex: 1;
+            text-align: center;
+        }
+
+        .doc-paper .doc-signatures .sig-line {
+            border-bottom: 1.5px solid #1f2a3f;
+            padding-bottom: 6px;
+            margin-bottom: 6px;
+            min-height: 32px;
+            font-size: 15px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .doc-paper .doc-signatures .sig-label {
+            font-size: 13px;
+            color: #4a5b72;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        .doc-paper .doc-amount-box {
+            background: #f4f8ff;
+            border-radius: 8px;
+            padding: 14px 20px;
+            margin: 12px 0 6px;
+            border: 1px solid #dce6f2;
+        }
+
+        .doc-paper .doc-amount-box .num {
+            font-weight: 700;
+            color: #0b1e33;
+        }
+
+        .doc-paper .doc-amount-box .words {
+            font-style: italic;
+            color: #1f3a5f;
+        }
+
+        /* ---------- PRINT STYLES (A4) ---------- */
+        @page {
+            size: A4;
+            margin: 18mm 16mm;
+        }
+
+        @media print {
+            body {
+                background: #ffffff !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            .modal-overlay {
+                position: static !important;
+                background: none !important;
+                backdrop-filter: none !important;
+                padding: 0 !important;
+                display: block !important;
+                animation: none !important;
+            }
+
+            .modal-content {
+                max-height: none !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                max-width: 100% !important;
+            }
+
+            .modal-header {
+                display: none !important;
+            }
+
+            .modal-body {
+                padding: 0 !important;
+                background: #ffffff !important;
+                overflow: visible !important;
+            }
+
+            .doc-paper {
+                border: none !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                padding: 0 !important;
+                max-width: 100% !important;
+                width: 210mm;
+                min-height: 297mm;
+                margin: 0 auto !important;
+            }
+
+            .doc-paper .doc-duties {
+                background: #f4f7fc !important;
+                border-left-color: #0b1e33 !important;
+            }
+
+            .doc-paper .doc-amount-box {
+                background: #f4f7fc !important;
+                border-color: #d0d8e4 !important;
+            }
+
+            .form-card {
+                display: none !important;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+            .doc-paper .doc-signatures {
+                flex-direction: row !important;
+            }
+
+            .doc-paper .doc-signatures .sig-line {
+                border-bottom-color: #0b1e33 !important;
+            }
+        }
+
+        /* ---------- SCREEN PREVIEW: SIMULATE A4 PAGE ---------- */
+        #docPaper {
+            width: 210mm;
+            min-height: 297mm;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 768px) {
+            .form-card {
+                padding: 24px 20px 32px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .form-group.full-width {
+                grid-column: 1;
+            }
+
+            .inline-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .inline-group .form-group {
+                min-width: auto;
+            }
+
+            .modal-body {
+                padding: 20px 16px 28px;
+            }
+
+            .doc-paper {
+                padding: 24px 20px !important;
+                font-size: 14px;
+                width: 100%;
+                min-height: 0;
+            }
+
+            .doc-paper .doc-title {
+                font-size: 20px;
+            }
+
+            .doc-paper .doc-signatures {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .form-actions .btn {
+                justify-content: center;
+            }
+
+            .modal-header {
+                flex-wrap: wrap;
+                gap: 12px;
+                padding: 16px 20px;
+            }
+
+            .modal-header .modal-actions {
+                width: 100%;
+                justify-content: stretch;
+            }
+
+            .modal-header .modal-actions .btn {
+                flex: 1;
+                justify-content: center;
+                font-size: 14px;
+                padding: 10px 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .doc-paper {
+                padding: 16px 14px !important;
+                font-size: 13px;
+            }
+            .doc-paper .doc-title {
+                font-size: 17px;
+            }
+            .doc-paper .doc-duties {
+                padding: 12px 14px;
+                font-size: 13px;
+            }
+        }
+
+        fieldset[disabled] input,
+fieldset[disabled] select {
+    background: #f5f6fa;
+    color: #555;
+    cursor: not-allowed;
+}
+#shiftTime {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}
+    </style>
+</head>
+<body>
+
+    <div class="app-wrapper">
+
+        <!-- ============================================================ -->
+        <!--  FORM CARD                                                    -->
+        <!-- ============================================================ -->
+        <div class="form-card" id="formCard">
+
+            <div class="form-title">
+                📄 Employment Contract
+                <small>— fill &amp; print</small>
+            </div>
+            <div class="form-subtitle">
+                Complete all fields below, then click <strong>“Preview &amp; Print”</strong> to generate a clean contract document.
+            </div>
+
+            <form id="contractForm" autocomplete="off">
+
+                <!-- Date -->
+                <div class="form-group full-width">
+    <label for="docDateInput">📅 Date</label>
+    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+    <input type="date" id="docDateInput" style="flex:1; min-width:180px; padding:10px 14px; border:1.5px solid #dbe0e8; border-radius:10px; font-size:15px;" />
+        <span id="formattedDateDisplay" style="font-size:1.1rem; font-weight:500; color:#0b1e33; background:#f4f8ff; padding:6px 16px; border-radius:8px;">
+            10<sup>th</sup> July 2026
+        </span>
+    </div>
+</div>
+
+                <hr class="divider" />
+
+                <!-- ===== EMPLOYER ===== -->
+                 <fieldset disabled style="border:none; padding:0; margin:0;">
+    <div class="section-label">
+        <span class="sec-num">1</span> Employer
+    </div>
+
+    <div class="inline-group">
+        <div class="form-group">
+            <label>Title</label>
+            <select id="empTitle">
+                <option value="Mr">Mr</option>
+                <option value="Ms" selected>Ms</option>
+                <option value="Mrs">Mrs</option>
+            </select>
+        </div>
+        <div class="form-group" style="flex:2;">
+            <label>Full Name</label>
+            <input type="text" id="empName" placeholder="e.g. Sarah Johnson" value="Sarah Johnson" />
+        </div>
+    </div>
+
+    <div class="inline-group">
+        <div class="form-group">
+            <label>Child</label>
+            <select id="empRelation">
+                <option value="son">son</option>
+                <option value="daughter" selected>daughter</option>
+            </select>
+        </div>
+        <div class="form-group" style="flex:2;">
+            <label>of (Parent's Name)</label>
+            <input type="text" id="empParents" placeholder="e.g. Robert &amp; Linda Johnson" value="Robert &amp; Linda Johnson" />
+        </div>
+    </div>
+
+    <div class="inline-group">
+        <div class="form-group">
+            <label>Grandchild</label>
+            <select id="empGrandRelation">
+                <option value="Grandson">Grandson</option>
+                <option value="Granddaughter" selected>Granddaughter</option>
+            </select>
+        </div>
+        <div class="form-group" style="flex:2;">
+            <label>of (Grandparent's Name)</label>
+            <input type="text" id="empGrandparents" placeholder="e.g. William &amp; Margaret Johnson" value="William &amp; Margaret Johnson" />
+        </div>
+    </div>
+    <div class="inline-group">
+        <div class="form-group">
+            <label>Company Name</label>
+            <input type="text" id="empCompany" placeholder="e.g. New Care Polyclinic" value="New Care Polyclinic" />
+        </div>
+    </div>
+</fieldset>
+
+                <hr class="divider" />
+
+                <!-- ===== EMPLOYEE ===== -->
+                <div class="section-label">
+                    <span class="sec-num">2</span> Employee
+                </div>
+
+                <div class="inline-group">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <select id="empTitleEmp">
+                            <option value="Mr">Mr</option>
+                            <option value="Ms" selected>Ms</option>
+                            <option value="Mrs">Mrs</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex:2;">
+                        <label>Full Name</label>
+                        <input type="text" id="empNameEmp" placeholder="e.g. Michael Chen" value="Michael Chen" />
+                    </div>
+                </div>
+
+                <div class="inline-group">
+                    <div class="form-group">
+                        <label>Child</label>
+                        <select id="empRelationEmp">
+                            <option value="son" selected>son</option>
+                            <option value="daughter">daughter</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex:2;">
+                        <label>of (Parent's Name)</label>
+                        <input type="text" id="empParentsEmp" placeholder="e.g. David &amp; Emily Chen" value="David &amp; Emily Chen" />
+                    </div>
+                </div>
+
+                <div class="inline-group">
+                    <div class="form-group">
+                        <label>Grandchild</label>
+                        <select id="empGrandRelationEmp">
+                            <option value="Grandson" selected>Grandson</option>
+                            <option value="Granddaughter">Granddaughter</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex:2;">
+                        <label>of (Grandparent's Name)</label>
+                        <input type="text" id="empGrandparentsEmp" placeholder="e.g. Henry &amp; Maria Chen" value="Henry &amp; Maria Chen" />
+                    </div>
+                </div>
+                <div class="inline-group">
+                    <div class="form-group">
+                        <label>Liscense No.</label>
+                        <input type="text" id="empLicenseEmp" placeholder="e.g. 1234567890" value="1234567890" />
+                    </div>
+                </div>
+                
+                <div class="inline-group">
+                    <div class="form-group">
+                        <label>Age</label>
+                        <input type="number" id="age" placeholder="e.g. 25" value="25" />
+                    </div>
+                </div>
+
+                
+                <div class="inline-group">
+                    <div class="form-group">
+                        <label>Permanent Address</label>
+                        <input type="text" id="empPermaAddressEmp" placeholder="e.g. Imadol, Mahalaxmi-4, Lalitpur, Nepal" value="Imadol, Mahalaxmi-4, Lalitpur, Nepal" />
+                    </div>
+                </div>
+
+                <hr class="divider" />
+
+                <!-- ===== POSITION & PERIOD ===== -->
+                <div class="section-label">
+                    <span class="sec-num">3</span> Engagement
+                </div>
+
+                <div class="inline-group">
+                    <div class="form-group" style="flex:1.5;">
+                        <label>Position / Role</label>
+                        <input type="text" id="role" placeholder="e.g. Health Assistant" value="Health Assistant" />
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label>Period of Engagement</label>
+                        <input type="text" id="period" placeholder="e.g. 12 months" value="12 months" />
+                    </div>
+                    <div class="form-group" style="flex:1.2;">
+                        <label>Start Date</label>
+                        <input type="date" id="startDate" value="2026-08-01" />
+                    </div>
+                </div>
+                <div class="inline-group">
+                    <div class="form-group" style="flex:1.2;">
+                        <label style="text-align: center; justify-content: center; margin-top: 2em;">Shift Time</label>
+                        <input type="text" id="shiftTime" placeholder="e.g. 7:00 AM - 1:00 PM, 2:00 PM - 8:00 PM" value="7:00 AM - 1:00 PM, 2:00 PM - 8:00 PM" />
+                    </div>
+                </div>
+
+                <hr class="divider" />
+
+                <!-- ===== DUTIES ===== -->
+                <div class="section-label">
+                    <span class="sec-num">4</span> Duties
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="duties">Describe the duties performed by the employee</label>
+                    <textarea id="duties" rows="5" placeholder="List the duties and responsibilities…">- Design, develop, and maintain software applications.
+                        - Collaborate with cross-functional teams.
+                        - Write clean, scalable, and well-documented code.
+                        - Participate in code reviews and sprint planning.
+                        - Troubleshoot and resolve technical issues.
+                    </textarea>
+                </div>
+
+                <hr class="divider" />
+
+                <!-- ===== AMOUNT ===== -->
+                <div class="section-label">
+                    <span class="sec-num">5</span> Salary / Amount
+                </div>
+
+                <div class="inline-group">
+                    <div class="form-group" style="flex:1;">
+                        <label>Amount (numeric)</label>
+                        <input type="text" id="amountNum" placeholder="e.g. Rs 35,000.00" value="Rs 35,000.00" />
+                    </div>
+                    <div class="form-group" style="flex:2;">
+                        <label>Amount (in words)</label>
+                        <input type="text" id="amountWords" placeholder="e.g. Thirty-five thousand rupees only" value="Thirty-five thousand rupees only" />
+                    </div>
+                </div>
+
+                <hr class="divider" />
+
+                <!-- ===== SIGNATURES ===== -->
+                <div class="section-label">
+                    <span class="sec-num">6</span> Signatures
+                </div>
+
+                <div class="inline-group">
+                    <div class="form-group" style="flex:1;">
+                        <label>Employee Name</label>
+                        <input type="text" id="sigEmployee" placeholder="e.g. Michael Chen" value="Michael Chen" />
+                    </div>
+                <fieldset disabled style="border:none;">
+
+                    <div class="form-group" style="flex:1;">
+                        <label>Employer Name</label>
+                        <input type="text" id="sigEmployer" placeholder="e.g. Jeetendra Shah" value="Jeetendra Shah" />
+                    </div>
+                </fieldset>
+                </div>
+                
+                <hr class="divider" />
+
+                <!-- ===== ACTIONS ===== -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="previewBtn">
+                        👁️ Preview &amp; Print
+                    </button>
+                    <button type="button" class="btn btn-outline" id="resetBtn">
+                        ↺ Reset to defaults
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+        <!-- ============================================================ -->
+        <!--  PREVIEW MODAL                                                -->
+        <!-- ============================================================ -->
+        <div class="modal-overlay" id="previewModal">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h2>📄 Contract Preview</h2>
+                    <div class="modal-actions">
+                        <button class="btn btn-print" id="printBtn">
+                            🖨️ Print
+                        </button>
+                        <button class="btn btn-outline" id="closeModalBtn">
+                            ✕ Close
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modal-body" id="modalBody">
+                    <!-- Rendered document will be injected here -->
+                    <div class="doc-paper" id="docPaper">
+                        <!-- populated by JavaScript -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ---- DOM refs ----
+            const form = document.getElementById('contractForm');
+            const previewBtn = document.getElementById('previewBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const printBtn = document.getElementById('printBtn');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const modal = document.getElementById('previewModal');
+            const docPaper = document.getElementById('docPaper');
+            const formCard = document.getElementById('formCard');
+
+            // ---- default values (for reset) ----
+            const defaults = {
+                docDate: getTodayString(),   // now dynamic
+                empTitle: 'Mr',
+                empName: 'Jeetendra Shah',
+                empRelation: 'son',
+                empParents: '',
+                empGrandRelation: 'Grandson',
+                empGrandparents: '',
+                empTitleEmp: 'Ms',
+                empNameEmp: 'Michael Chen',
+                empRelationEmp: 'son',
+                empParentsEmp: 'David & Emily Chen',
+                empGrandRelationEmp: 'Grandson',
+                empGrandparentsEmp: 'Henry & Maria Chen',
+                empLicenseEmp: '1234567890',
+                age: '25',
+                empPermaAddressEmp: 'Imadol, Mahalaxmi-4, Lalitpur, Nepal',
+                empCompany: 'New Care Polyclinic',
+                role: 'Health Assistant',
+                period: '12 months',
+                startDate: getTodayString(),
+                shiftTime: '7:00 AM - 1:00 PM, 2:00 PM - 8:00 PM',
+                duties: '- Take and record vital signs (temperature, blood pressure, pulse, respiration) as directed.\n- Help patients with mobility, including transferring from bed to wheelchair and ambulation.\n- Monitor patients for changes in condition and report to nursing staff.\n- Maintain a clean and safe environment for patients.\n- Communicate effectively with multidisciplinary healthcare team members.',
+                amountNum: 'Rs 35,000.00',
+                amountWords: 'Thirty-five thousand rupees only',
+                sigEmployee: 'Michael Chen',
+                sigEmployer: 'Jeetendra Shah'
+            };
+
+
+            // Get today's date in YYYY-MM-DD
+function getTodayString() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+// Set the date input to today
+const dateInput = document.getElementById('docDateInput');
+dateInput.value = getTodayString();
+
+// Update the display with formatted date
+document.getElementById('formattedDateDisplay').innerHTML = formatDateWithOrdinal(dateInput.value);
+
+
+
+            function formatDateWithOrdinal(dateStr) {
+    if (!dateStr) return '________';
+    const parts = dateStr.split('-');
+    const year = parts[0];
+    const month = parseInt(parts[1]) - 1;
+    const day = parseInt(parts[2]);
+    const dateObj = new Date(year, month, day);
+    const dayNum = dateObj.getDate();
+    const suffix = ['th', 'st', 'nd', 'rd'][(dayNum % 10 > 3 || Math.floor(dayNum % 100 / 10) === 1) ? 0 : dayNum % 10];
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    // Return with superscripted suffix
+    return `${dayNum}<sup>${suffix}</sup> ${monthNames[month]} ${year}`;
+}
+
+            // ---- helpers ----
+            function getVal(id) {
+                const el = document.getElementById(id);
+                return el ? el.value : '';
+            }
+
+            function setVal(id, val) {
+                const el = document.getElementById(id);
+                if (el) el.value = val;
+            }
+
+            function getSelectText(id) {
+                const el = document.getElementById(id);
+                return el ? el.options[el.selectedIndex].text : '';
+            }
+
+            function escapeHtml(str) {
+                return String(str)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;');
+            }
+
+
+            // ---- render document ----
+            function renderDocument() {
+                const dateInput = document.getElementById('docDateInput');
+                const date = dateInput.value ? formatDateWithOrdinal(dateInput.value) : '________';
+                
+                // Employer
+                const empTitle = getVal('empTitle') || 'Mr/Ms';
+                const empName = getVal('empName') || '________';
+                const empRelation = getVal('empRelation') || 'son/daughter';
+                const empParents = getVal('empParents') || '________';
+                const empGrandRelation = getVal('empGrandRelation') || 'Grandson/Granddaughter';
+                const empGrandparents = getVal('empGrandparents') || '________';
+                const empCompany = getVal('empCompany') || '________';
+
+                // Employee
+                const empTitleEmp = getVal('empTitleEmp') || 'Mr/Ms';
+                const empNameEmp = getVal('empNameEmp') || '________';
+                const empRelationEmp = getVal('empRelationEmp') || 'son/daughter';
+                const empParentsEmp = getVal('empParentsEmp') || '________';
+                const empGrandRelationEmp = getVal('empGrandRelationEmp') || 'Grandson/Granddaughter';
+                const empGrandparentsEmp = getVal('empGrandparentsEmp') || '________';
+                const empLicenseEmp = getVal('empLicenseEmp') || '________';
+                const age = getVal('age') || '________';
+                const empPermaAddressEmp = getVal('empPermaAddressEmp') || '________';
+
+                // Engagement
+                const role = getVal('role') || '________';
+                const period = getVal('period') || '________';
+                const startDateRaw = getVal('startDate');
+                const startDate = startDateRaw ? formatDateWithOrdinal(startDateRaw) : '________';
+                const shiftTime = getVal('shiftTime') || '________';
+
+                // Duties
+                const duties = getVal('duties') || 'No duties specified.';
+
+                // Amount
+                const amountNum = getVal('amountNum') || '________';
+                const amountWords = getVal('amountWords') || '________';
+
+                // Signatures
+                const sigEmployee = getVal('sigEmployee') || '________';
+                const sigEmployer = getVal('sigEmployer') || '________';
+
+                // ---- Terms & Conditions (generated) ----
+                const termsList = [
+                    `This agreement is effective from <strong>${startDate}</strong> for a period of <strong>${period}</strong>, and may be renewed or terminated thereafter by mutual written consent of both parties.`,
+                    `The Employee's working hours shall be <strong>${shiftTime}</strong>, subject to reasonable adjustment by the Employer based on operational requirements.`,
+                    `The Employee shall perform the duties described above with due diligence, professionalism, and in accordance with the Employer's policies and applicable regulations.`,
+                    `Either party may terminate this agreement by providing written notice prior to 35 days' notice period agreed upon by both parties.`,
+                    `The Employee agrees to maintain confidentiality regarding patients, clients, and proprietary information of ${empCompany} during and after the term of this agreement.`,
+                    `Salary shall be paid to the Employee on a monthly basis, subject to applicable statutory deductions, as agreed in Section 5 above.`,
+                    `Any disputes arising out of this agreement shall be resolved amicably between both parties, and failing that, in accordance with the applicable laws of Nepal.`
+                ];
+
+                const termsHtml = termsList.map(t => `<li>${t}</li>`).join('\n                            ');
+
+                // Build HTML
+                let html = `
+                        <div class="doc-title">Employment Contract</div>
+
+                        <div class="doc-date">
+                            <strong>Date:</strong> ${date}
+                        </div>
+
+                        <div class="doc-section">
+                            <p>
+                                <span class="doc-label">Employer:</span>
+                                ${empTitle} ${empName} ${empRelation} of ${empParents} 
+                                ${empGrandRelation} of ${empGrandparents}
+                                will be referred to as <strong>Employer</strong> in this document here after.
+                            </p>
+                            <p>
+                                <span class="doc-label">Employee:</span>
+                                ${empTitleEmp} ${empNameEmp} ${empRelationEmp} of ${empParentsEmp} 
+                                ${empGrandRelationEmp} of ${empGrandparentsEmp}
+                                will be referred to as <strong>Employee</strong> in this document here after.
+                            </p>
+                        </div>
+
+                        <div class="doc-section">
+                            <p>
+                                Employee has been taken in as <strong>${role}</strong> 
+                                for the period of <strong>${period}</strong> 
+                                since <strong>${startDate}</strong> effective immediately.
+                            </p>
+                            <p>
+                                Employee, aged <strong>${age}</strong> years, holding License No. <strong>${empLicenseEmp}</strong> 
+                                and residing at <strong>${empPermaAddressEmp}</strong>, has agreed upon the terms of the company 
+                                <strong>${empCompany}</strong> and shall work in shifts of <strong>${shiftTime}</strong>.
+                            </p>
+                        </div>
+
+                        <div class="doc-section">
+                            <p><span class="doc-label">As per this contract the duties performed by the employee are as follows:</span></p>
+                            <div class="doc-duties">${duties}</div>
+                        </div>
+
+                        <div class="doc-section">
+                            <p>
+                                Upon inspection of the duties and value provided by the employee to the company 
+                                we offer <strong>${amountNum}</strong> 
+                                in words <strong><span class="words">${amountWords}</span></strong> to the employee.
+                            </p>
+                            <div class="doc-amount-box">
+                                This amount is satisfactory for the duties and services provided.
+                            </div>
+                        </div>
+
+                        <div class="doc-section">
+                            <p><span class="doc-label">Terms &amp; Conditions:</span></p>
+                            <ol class="doc-terms">
+                            ${termsHtml}
+                            </ol>
+                        </div>
+
+                        <div class="doc-signatures">
+                            <div class="sig-block">
+                                <div class="sig-line">${sigEmployee}</div>
+                                <div class="sig-label">Employee Signature</div>
+                            </div>
+                            <div class="sig-block">
+                                <div class="sig-line">${sigEmployer}</div>
+                                <div class="sig-label">Employer Signature</div>
+                            </div>
+                        </div>
+                    `;
+
+                docPaper.innerHTML = html;
+            }
+            document.getElementById('docDateInput').addEventListener('change', function() {
+                const formatted = formatDateWithOrdinal(this.value);
+                document.getElementById('formattedDateDisplay').innerHTML = formatted;
+            });
+
+            // ---- show modal ----
+            function showModal() {
+                renderDocument();
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            // ---- hide modal ----
+            function hideModal() {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            // ---- print ----
+            function printDocument() {
+                // Ensure document is up-to-date
+                renderDocument();
+                // Trigger browser print
+                window.print();
+            }
+
+            // ---- reset form ----
+            function resetForm() {
+                for (const [key, val] of Object.entries(defaults)) {
+                    setVal(key, val);
+                }
+                // Reset selects to match defaults
+                document.getElementById('empTitle').value = defaults.empTitle;
+                document.getElementById('empRelation').value = defaults.empRelation;
+                document.getElementById('empGrandRelation').value = defaults.empGrandRelation;
+                document.getElementById('empTitleEmp').value = defaults.empTitleEmp;
+                document.getElementById('empRelationEmp').value = defaults.empRelationEmp;
+                document.getElementById('empGrandRelationEmp').value = defaults.empGrandRelationEmp;
+            }
+
+            // ---- event listeners ----
+            previewBtn.addEventListener('click', showModal);
+
+            closeModalBtn.addEventListener('click', hideModal);
+
+            // Close modal on overlay click (but not on content click)
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    hideModal();
+                }
+            });
+
+            // Escape key closes modal
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    hideModal();
+                }
+            });
+
+            printBtn.addEventListener('click', printDocument);
+
+            resetBtn.addEventListener('click', resetForm);
+
+            // ---- auto-render on form change (for preview) ----
+            const inputs = form.querySelectorAll('input, select, textarea');
+            inputs.forEach(el => {
+                el.addEventListener('input', function() {
+                    // If modal is open, live-update the preview
+                    if (modal.classList.contains('active')) {
+                        renderDocument();
+                    }
+                });
+                el.addEventListener('change', function() {
+                    if (modal.classList.contains('active')) {
+                        renderDocument();
+                    }
+                });
+            });
+
+            // ---- initial render (populate with defaults) ----
+            resetForm();
+
+            // ---- handle window print (so that the modal shows during print) ----
+            // If user prints via browser while modal is open, the @media print styles will kick in.
+            // We also want to ensure the document is rendered before print.
+            window.addEventListener('beforeprint', function() {
+                // If modal is not open, do nothing – user might print the form page itself.
+                // But we only want to print the document from the modal.
+                // The print button handles this properly.
+            });
+
+            // ---- extra: if user closes modal, ensure body scroll returns ----
+            // covered by hideModal()
+
+        })();
+    </script>
+
+</body>
+</html>
